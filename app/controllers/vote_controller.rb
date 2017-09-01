@@ -42,11 +42,13 @@ class VoteController < ApplicationController
       ) and return
     end
     @votes.each_with_index do |(candidate, order), index|
-      if order < 1
-        redirect_back(
-            fallback_location: '/',
-            flash: {alert: "Please ensure your votes start with 1."}
-        ) and return
+      unless order.nil?
+        if order < 1
+          redirect_back(
+              fallback_location: '/',
+              flash: {alert: "Please ensure your votes start with 1."}
+          ) and return
+        end
       end
       if order > @votes.length
         redirect_back(
