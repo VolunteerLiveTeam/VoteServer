@@ -20,7 +20,9 @@ class VoteController < ApplicationController
   def confirm
     options = {}
     Candidate.all.each do |c|
-      options[c] = params["rank_#{c.id}"].to_i
+      option = params["rank_#{c.id}"].to_i
+      next if option.nil?
+      options[c] = option
     end
     @votes = Hash[options.sort_by {|k, v| v}]
     session[:options] = @votes.map {|c, rank| [c.id, rank]}.to_h
