@@ -1,0 +1,40 @@
+<h1>VLT Election</h1>
+<p>Thank you for voting in the VLT election.</p>
+<p>Please rank the candidates in order of your preference. You do not have to rank every candidate.</p>
+
+<% if flash[:alert] %>
+    <blockquote class="error">
+      <%= flash[:alert] %>
+    </blockquote>
+<% end %>
+
+<%= form_tag(vote_confirm_path, method: :post) do %>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Bio</th>
+        <th>Order of preference</th>
+      </tr>
+      <% @candidates.each do |c| %>
+          <tr>
+            <td><%= c.name %></td>
+            <td><%= c.bio %></td>
+            <td><%= number_field_tag "rank_#{c.id}", nil, min: 1, max: @candidates.length %></td>
+          </tr>
+      <% end %>
+    </table>
+
+    <p>Do you agree with the following proposed structure for the VLT leadership?</p>
+    <blockquote>The VLT Committee shall have five members, with no defined roles.</blockquote>
+    <label>
+      Yes
+      <%= radio_button_tag 'agree', 'yes' %>
+    </label>
+    <label>
+      No
+      <%= radio_button_tag 'agree', 'no' %>
+    </label>
+    <br />
+
+    <%= submit_tag "Submit" %>
+<% end %>

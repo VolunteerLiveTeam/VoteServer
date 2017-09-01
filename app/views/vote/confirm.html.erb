@@ -1,0 +1,24 @@
+<h1>Confirm votes</h1>
+<p>Please confirm you wish to vote for the following candidates in the following order</p>
+<%= form_tag vote_create_path, method: :post do %>
+    <table>
+      <tr>
+        <th>Order</th>
+        <th>Candidate</th>
+      </tr>
+      <% @votes.each do |candidate, order| %>
+          <tr>
+            <td><%= order %></td>
+            <td><%= candidate.name %></td>
+          </tr>
+      <% end %>
+    </table>
+    <% if @question == 'yes' %>
+        <b>I agree with the following VLT leadership structure</b>
+    <% else %>
+        <b>I do not agree with the following VLT leadership structure</b>
+    <% end %>
+    <blockquote>The VLT Committee shall have five members, with no defined roles.</blockquote>
+    <%= link_to "Go Back", vote_noslug_path %>
+    <%= submit_tag "Confirm" %>
+<% end %>

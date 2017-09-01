@@ -1,0 +1,2 @@
+class StructureVote < ApplicationRecord
+end

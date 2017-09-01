@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  voter: one
+  candidate: one
+  preference: 1
+
+two:
+  voter: two
+  candidate: two
+  preference: 1
