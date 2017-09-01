@@ -42,7 +42,7 @@ class VoteController < ApplicationController
       ) and return
     end
     @votes.each_with_index do |(candidate, order), index|
-      unless order.nil?
+      unless order.nil? or order == 0
         if order < 1
           redirect_back(
               fallback_location: '/',
