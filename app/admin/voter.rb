@@ -44,6 +44,9 @@ ActiveAdmin.register Voter do
   end
 
   before_create do |voter|
-    voter.url_slug = ('A'..'Z').to_a.shuffle[0,8].join
+    begin
+      url_slug = ('A'..'Z').to_a.shuffle[0,8].join
+    end while Voter.exists?(:url_slug => url_slug)
+    voter.url_slug = url_slug
   end
 end

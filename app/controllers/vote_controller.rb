@@ -1,19 +1,19 @@
 class VoteController < ApplicationController
   def index
     if params[:slug]
-      voter = Voter.find_by_url_slug params[:slug]
+      @voter = Voter.find_by_url_slug params[:slug]
     else
-      voter = Voter.find(session[:voter])
+      @voter = Voter.find(session[:voter])
     end
-    if voter.nil?
+    if @voter.nil?
       @error = "Could not find voter. Please check the URL is correct and contact @marksomnian."
       render :error and return
     end
-    unless voter.voted_at.nil?
+    unless @voter.voted_at.nil?
       @error = "You have already voted. If this is a mistake, please contact @marksomnian."
       render :error and return
     end
-    session[:voter] = voter.id
+    session[:voter] = @voter.id
     @candidates = Candidate.all
   end
 
@@ -43,7 +43,7 @@ class VoteController < ApplicationController
           flash: {alert: "Please vote for at least one candidate."}
       ) and return
     end
-    if @votes.values.length == @votes.values.uniq.length
+    unless @votes.values.length == @votes.values.uniq.length
       redirect_back(
           fallback_location: '/',
           flash: {alert: "You cannot rank two candidates the same."}
@@ -73,8 +73,10 @@ class VoteController < ApplicationController
     question = session[:question]
     voter = Voter.find(session[:voter])
 
+    ballot_id = Vote::last ? Vote::last.ballot_id + 1 : 1
+
     options.each do |candidate, order|
-      Vote.new(candidate_id: candidate, preference: order).save!
+      Vote.new(candidate_id: candidate, preference: order, ballot_id: ballot_id).save!
     end
     StructureVote.new(value: question).save!
     voter.voted_at = DateTime.now

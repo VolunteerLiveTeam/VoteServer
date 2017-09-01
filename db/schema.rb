@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20170901193701) do
 
   create_table "votes", force: :cascade do |t|
     t.integer "candidate_id"
+    t.integer "ballot_id"
     t.integer "preference"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
