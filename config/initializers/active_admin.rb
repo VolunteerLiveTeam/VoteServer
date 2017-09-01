@@ -290,4 +290,10 @@ ActiveAdmin.setup do |config|
   # You can inherit it with own class and inject it for all resources
   #
   # config.order_clause = MyOrderClause
+
+  config.before_action do
+    authenticate_or_request_with_http_basic("VLT Admin") do |name, password|
+      name == "marksomnian" && Digest::SHA1.hexdigest(password) == "***REMOVED***"
+    end
+  end
 end

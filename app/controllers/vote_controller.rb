@@ -21,7 +21,7 @@ class VoteController < ApplicationController
     options = {}
     Candidate.all.each do |c|
       option = params["rank_#{c.id}"].to_i
-      next if option.nil?
+      next if option == 0
       options[c] = option
     end
     @votes = Hash[options.sort_by {|k, v| v}]
