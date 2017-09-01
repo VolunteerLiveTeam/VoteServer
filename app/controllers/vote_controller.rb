@@ -43,6 +43,12 @@ class VoteController < ApplicationController
           flash: {alert: "Please vote for at least one candidate."}
       ) and return
     end
+    if @votes.values.length == @votes.values.uniq.length
+      redirect_back(
+          fallback_location: '/',
+          flash: {alert: "You cannot rank two candidates the same."}
+      ) and return
+    end
     @votes.each_with_index do |(candidate, order), index|
       unless order.nil? or order == 0
         if order < 1
