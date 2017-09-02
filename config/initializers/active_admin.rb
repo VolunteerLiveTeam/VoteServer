@@ -293,7 +293,7 @@ ActiveAdmin.setup do |config|
 
   config.before_action do
     authenticate_or_request_with_http_basic("VLT Admin") do |name, password|
-      name == "marksomnian" && Digest::SHA1.hexdigest(password) == "***REMOVED***"
+      name == "marksomnian" && Digest::SHA1.hexdigest(password) == ENV["ADMIN_HASH"]
     end
   end
 end
